@@ -22,19 +22,30 @@ class CoinConverter(APIView):
             to_coin = request.query_params['to']
             coin_amount = request.query_params['amount']
 
+    
+            formated_coin_amount = self.format_number(coin_amount)
             currency_obj = Currency(from_coin)
-            converted_coin = currency_obj.convert_to_currency(to_coin, coin_amount)
+            converted_coin = currency_obj.convert_to_currency(to_coin, formated_coin_amount)
 
             json_data = {
                 'from_coin': from_coin,
                 'to_coin': to_coin,
-                'coin_amount': coin_amount,
+                'coin_amount': formated_coin_amount,
                 'converted_coin_amount': converted_coin
                 }
         except:
             return JsonResponse(status=404, data={'status': 'false', 'message': 'Invalid url params'})
 
         return JsonResponse(data=json_data)
+    
+    def format_number(self, number) -> str:
+        try:
+            formated_number = str(float(number))
+
+            return formated_number
+        except:
+            
+            return 'Invalid data'
 
 class Currency():
     """

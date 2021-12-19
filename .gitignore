@@ -3,4 +3,3 @@ venv
 .vscode
 *__pycache__
 local_settings.py
-.env
